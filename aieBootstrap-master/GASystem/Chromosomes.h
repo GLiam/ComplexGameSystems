@@ -21,7 +21,7 @@ public:
 
 	//void setfitness();
 	//void getfitness();
-
+	// fuck you all
 	void GenerateChromosome()
 	{
 		T Genes[GENE_NUM];
