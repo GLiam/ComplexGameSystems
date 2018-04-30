@@ -21,23 +21,32 @@ public:
 
 	//void setfitness();
 	//void getfitness();
-	// fuck you all
+
 	void GenerateChromosome()
 	{
-		T Genes[GENE_NUM];
+		chromosomes.clear();
 		for (int CurrentChromosome = 0; CurrentChromosome < GENE_NUM; CurrentChromosome++)
 		{
-			Genes[CurrentChromosome] = static_cast<T>(rand() % T::MAX_VALUE);
-			std::cout << Genes[CurrentChromosome] << std::endl;
+			chromosomes.push_back(static_cast<T>(rand() % T::MAX_VALUE));
+			if(isFirstCreated)
+			{
+				Mutation();
+			}
 		}
-		T chromosomes = Genes[GENE_NUM];
 	}
 
-	
+	void Mutation()
+	{
 
-protected:
+
+
+		isFirstCreated = true;
+	}
+
+	std::vector<T> getChromosomes() { return chromosomes; }	
+
+private:
 	std::vector<T> chromosomes;
-	int ChromosomePopulationSize;
-	int GenerationSurvivorCount;
+	bool isFirstCreated = false;
 };
 
