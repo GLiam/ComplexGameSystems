@@ -29,6 +29,27 @@ public:
 protected:
 
 	GeneticAlgorithm<DIRECTIONS, 10, 10>	m_GeneticAlgorithm;
-	aie::Renderer2D*	m_2dRenderer;
-	aie::Font*			m_font;
+	aie::Renderer2D*						m_2dRenderer;
+	aie::Font*								m_font;
 };
+
+//void Mutation(float Mutation_Rate)
+//{
+//	float Chance = rand() % 0.2;
+//	float HighLowChance = rand() % 1;
+//	T temp;
+//	int MutatedGene = rand() % chromosomes.size();
+//	temp = chromosomes[MutatedGene];
+//	if (Chance <= Mutation_Rate)
+//	{
+//		if (HighLowChance == 1)
+//		{
+//			temp -= 1;
+//		}
+//		else
+//		{
+//			temp += 1;
+//		}
+//		chromosomes.at(MutatedGene) = temp;
+//	}
+//}

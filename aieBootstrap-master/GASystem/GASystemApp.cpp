@@ -3,8 +3,10 @@
 #include "Input.h"
 #include "GeneticAlgorithm.h"
 
-GASystemApp::GASystemApp() {
-
+GASystemApp::GASystemApp()
+	: m_GeneticAlgorithm(0.1f, 0.5f)
+{
+	//m_GeneticAlgorithm.setMutationRate(0.1f);
 }
 
 GASystemApp::~GASystemApp() {

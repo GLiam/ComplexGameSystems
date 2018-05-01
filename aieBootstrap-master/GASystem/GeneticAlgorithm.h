@@ -2,13 +2,15 @@
 #include <iostream>
 #pragma once
 
-template<typename T,  int GENE_NUM, int POPULATION_NUM>
+template<typename T, int GENE_NUM, int POPULATION_NUM>
 class GeneticAlgorithm
 {
 public:
 	
-	GeneticAlgorithm() 
-	{
+	GeneticAlgorithm() = delete;
+
+	GeneticAlgorithm(float Mutation_Rate, float CrossOver_Rate)
+	{		
 		m_Chromosomes = new Chromosomes<T, GENE_NUM>;
 		//T Gene = m_Chromosomes->getChromosomes();
 	}
@@ -41,12 +43,21 @@ public:
 		}
 	}
 
-	void CrossOver()
+	void CrossOver(float CrossOver_Rate)
 	{
 
+
+		Mutation(Mutation_Rate);
 	}
 
-protected:
+	//void getMutationRate() { return Mutation_Rate; }
+	//void setMutationRate(float NewMutatRate) { Mutation_Rate = NewMutatRate; }
+	//void getCrossOverRate() { return CrossOver_Rate; }
+	//void setCrossOverRate(float NewCrossRate) { CrossOver_Rate = NewCrossRate; }
+
+protected: 
 	Chromosomes<T, GENE_NUM>* m_Chromosomes;
 	std::vector<std::vector<T>> Population;
+	//float Mutation_Rate;
+	float CrossOver_Rate;
 };
