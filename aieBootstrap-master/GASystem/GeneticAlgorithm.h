@@ -23,14 +23,13 @@ public:
 	void GeneratePopulation()
 	{
 		float chromosomeCount = 1;
-		//std::vector<T> ChromosomeList[POPULATION_NUM];
-		//std::vector<T> test;
 
 		for (int i = 0; i < POPULATION_NUM; i++)
 		{
 			std::cout << "Chromosomes: " << chromosomeCount << std::endl;
 			m_Chromosomes->GenerateChromosome();
 			Population.push_back(m_Chromosomes->getChromosomes());
+			FitnessScore[i] = 0.1f;
 			chromosomeCount++;
 		}
 	}
@@ -45,19 +44,20 @@ public:
 
 	void CrossOver(float CrossOver_Rate)
 	{
+		int PotentialParent1 = Population[rand() % Population.size()];
+		int PotentialParent2 = Population[rand() % Population.size()];
+		int PotentialParent3 = Population[rand() % Population.size()];
+		int PotentialParent4 = Population[rand() % Population.size()];
 
+		FirstCross
 
 		Mutation(Mutation_Rate);
 	}
 
-	//void getMutationRate() { return Mutation_Rate; }
-	//void setMutationRate(float NewMutatRate) { Mutation_Rate = NewMutatRate; }
-	//void getCrossOverRate() { return CrossOver_Rate; }
-	//void setCrossOverRate(float NewCrossRate) { CrossOver_Rate = NewCrossRate; }
+	std::vector<std::vector<T>> getPopulation() { return Population; }
 
 protected: 
 	Chromosomes<T, GENE_NUM>* m_Chromosomes;
 	std::vector<std::vector<T>> Population;
-	//float Mutation_Rate;
-	float CrossOver_Rate;
+	float FitnessScore[POPULATION_NUM];
 };

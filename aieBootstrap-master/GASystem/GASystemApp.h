@@ -20,6 +20,8 @@ public:
 	GASystemApp();
 	virtual ~GASystemApp();
 
+	void Fitness(float DeltaTime);
+
 	virtual bool startup();
 	virtual void shutdown();
 
@@ -28,28 +30,9 @@ public:
 
 protected:
 
-	GeneticAlgorithm<DIRECTIONS, 10, 10>	m_GeneticAlgorithm;
+	GeneticAlgorithm<DIRECTIONS, 10, 100>	m_GeneticAlgorithm;
 	aie::Renderer2D*						m_2dRenderer;
 	aie::Font*								m_font;
+	float									xPos = 50;
+	float									yPos = 50;
 };
-
-//void Mutation(float Mutation_Rate)
-//{
-//	float Chance = rand() % 0.2;
-//	float HighLowChance = rand() % 1;
-//	T temp;
-//	int MutatedGene = rand() % chromosomes.size();
-//	temp = chromosomes[MutatedGene];
-//	if (Chance <= Mutation_Rate)
-//	{
-//		if (HighLowChance == 1)
-//		{
-//			temp -= 1;
-//		}
-//		else
-//		{
-//			temp += 1;
-//		}
-//		chromosomes.at(MutatedGene) = temp;
-//	}
-//}
