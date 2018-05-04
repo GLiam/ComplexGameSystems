@@ -12,7 +12,6 @@ public:
 	GeneticAlgorithm(float Mutation_Rate, float CrossOver_Rate)
 	{		
 		m_Chromosomes = new Chromosomes<T, GENE_NUM>;
-		//T Gene = m_Chromosomes->getChromosomes();
 	}
 	
 	~GeneticAlgorithm()
@@ -26,7 +25,7 @@ public:
 
 		for (int i = 0; i < POPULATION_NUM; i++)
 		{
-			std::cout << "Chromosomes: " << chromosomeCount << std::endl;
+			//std::cout << "Chromosomes: " << chromosomeCount << std::endl;
 			m_Chromosomes->GenerateChromosome();
 			Population.push_back(m_Chromosomes->getChromosomes());
 			FitnessScore[i] = 0.1f;
@@ -34,30 +33,56 @@ public:
 		}
 	}
 
-	void FitnissFuction()
-	{
-		for(int i = 0; i < Population; i++)
-		{
-			
-		}
+	void FitnissEvaluation()
+	{	
 	}
 
 	void CrossOver(float CrossOver_Rate)
 	{
-		int PotentialParent1 = Population[rand() % Population.size()];
-		int PotentialParent2 = Population[rand() % Population.size()];
-		int PotentialParent3 = Population[rand() % Population.size()];
-		int PotentialParent4 = Population[rand() % Population.size()];
+		Parents = Population;
+		Population.clear();
 
-		FirstCross
+		bool attempt1;
+		bool attempt2;
+		bool attempt3;
+		bool attempt4;
 
-		Mutation(Mutation_Rate);
+		for (int i = 0; i < 4; i++)
+		{
+			if (!attempt1)
+			{
+				auto PotentialParent1 = Parents.at(rand() % Parents.size());
+			}
+		}
+
+		if (FitnessScore[] <= FitnessScore[])
+		{
+			CrossOverParent.push_back(PotentialParent1);
+		}
+		//else
+		//	CrossOverParent.push_back(Parents.at(Parents[PotentialParent2]));
+
+		//if (FitnessScore[PotentialParent3] <= FitnessScore[PotentialParent4])
+		//{
+		//	CrossOverParent.push_back(Parents.at(Parents[PotentialParent3]));
+		//}
+		//else
+		//	CrossOverParent.push_back(Parents.at(Parents[PotentialParent4]));
+
+		//Mutation(Mutation_Rate);
+
+		FirstCross;
+
 	}
 
 	std::vector<std::vector<T>> getPopulation() { return Population; }
 
+	float FitnessScore[POPULATION_NUM];
+	//float getFitnessScore() { return FitnessScore[]; }
 protected: 
 	Chromosomes<T, GENE_NUM>* m_Chromosomes;
 	std::vector<std::vector<T>> Population;
-	float FitnessScore[POPULATION_NUM];
+	std::vector<std::vector<T>> Parents;
+	std::vector<std::vector<T>> CrossOverParent;
+	std::vector<std::vector<T>> child;
 };

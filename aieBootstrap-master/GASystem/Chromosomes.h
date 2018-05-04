@@ -15,7 +15,8 @@ public:
 		chromosomes.clear();
 		for (int CurrentChromosome = 0; CurrentChromosome < GENE_NUM; CurrentChromosome++)
 		{
-			chromosomes.push_back(static_cast<T>(rand() % T::MAX_VALUE));
+			T temp = static_cast<T>(rand() % T::MAX_VALUE);
+			chromosomes.push_back(temp);
 		}
 	}
 

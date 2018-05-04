@@ -30,9 +30,9 @@ public:
 
 protected:
 
-	GeneticAlgorithm<DIRECTIONS, 10, 100>	m_GeneticAlgorithm;
+	GeneticAlgorithm<DIRECTIONS, 10 , 3>	m_GeneticAlgorithm;
 	aie::Renderer2D*						m_2dRenderer;
 	aie::Font*								m_font;
-	float									xPos = 50;
-	float									yPos = 50;
+	float									xPos;
+	float									yPos;
 };
