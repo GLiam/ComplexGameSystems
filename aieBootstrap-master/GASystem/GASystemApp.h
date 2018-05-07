@@ -20,7 +20,7 @@ public:
 	GASystemApp();
 	virtual ~GASystemApp();
 
-	void Fitness(float DeltaTime);
+	void Fitness();
 
 	virtual bool startup();
 	virtual void shutdown();
@@ -35,4 +35,6 @@ protected:
 	aie::Font*								m_font;
 	float									xPos;
 	float									yPos;
+	int										currentX;
+	int										currentY;
 };

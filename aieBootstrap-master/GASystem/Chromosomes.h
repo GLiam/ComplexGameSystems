@@ -1,6 +1,7 @@
 #include <list>
 #include <iostream>
 #include <vector>
+#include <ctime>
 #include "Gene.h"
 #pragma once
 
@@ -13,6 +14,7 @@ public:
 	void GenerateChromosome()
 	{
 		chromosomes.clear();
+		srand(time(NULL));
 		for (int CurrentChromosome = 0; CurrentChromosome < GENE_NUM; CurrentChromosome++)
 		{
 			T temp = static_cast<T>(rand() % T::MAX_VALUE);
