@@ -3,16 +3,8 @@
 #include "Application.h"
 #include "Renderer2D.h"
 #include "GeneticAlgorithm.h"
-
-enum DIRECTIONS
-{
-	UP,
-	DOWN,
-	LEFT,
-	RIGHT,
-	NO_DIRECTION,
-	MAX_VALUE
-};
+#include "Maze.h"
+#include "Directions.h"
 
 class GASystemApp : public aie::Application {
 public:
@@ -20,13 +12,14 @@ public:
 	GASystemApp();
 	virtual ~GASystemApp();
 
-	void Fitness();
 
 	virtual bool startup();
 	virtual void shutdown();
 
 	virtual void update(float deltaTime);
 	virtual void draw();
+
+	void Fitness();
 
 protected:
 
@@ -35,7 +28,11 @@ protected:
 	aie::Font*								m_font;
 	float									xPos;
 	float									yPos;
-	int										currentX;
-	int										currentY;
+	float									currentX;
+	float									currentY;
+	float									endposX = currentX;
+	float									endposY = currentY;
 	int										Time = 0;
+	Maze									m_maze;
+	Maze::MazePosition						position;
 };
