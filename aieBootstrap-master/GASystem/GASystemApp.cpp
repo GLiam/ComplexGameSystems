@@ -24,7 +24,6 @@ bool GASystemApp::startup() {
 	int currentX = xPos;
 	int currentY = yPos;
 
-
 	///Genetic Algorithm START
 	m_GeneticAlgorithm.GeneratePopulation();
 
@@ -41,9 +40,12 @@ void GASystemApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+	Time++;
 
-	Fitness();
-
+	if (Time >= 100)
+	{
+		Fitness();
+	}
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
 		quit();
@@ -66,6 +68,8 @@ void GASystemApp::draw() {
 	m_2dRenderer->drawBox(xPos, yPos, 20, 20);
 	m_2dRenderer->drawLine(250, 500, xPos, yPos);
 
+
+	m_2dRenderer->setRenderColour(0.5f, 1, 0.5f, 1);
 	//Left
 	m_2dRenderer->drawCircle(250, 500, 10);
 	m_2dRenderer->drawCircle(250, 400, 10);
@@ -115,8 +119,10 @@ void GASystemApp::Fitness()
 {
 	auto Pop = m_GeneticAlgorithm.getPopulation();
 	int i = 0;
+	float endposX = currentX;
+	float endposY = currentY;
 	m_GeneticAlgorithm.FitnessScore[i];
-	m_2dRenderer->setRenderColour(1, 0.5f, 0, 1.0f);
+	m_2dRenderer->setRenderColour(0, 1, 1, 1.0f);
 	for (auto& Dir : Pop)
 	{
 		for (auto& gene : Dir)
@@ -124,27 +130,31 @@ void GASystemApp::Fitness()
 			switch (gene)
 			{
 			case DIRECTIONS::UP:
-				yPos += 0.3f;
+				yPos += 10;
 				std::cout << " UP " << std::endl;
 				m_2dRenderer->drawLine(currentX, currentY, xPos, yPos, 1, 0);
+				//m_2dRenderer->drawBox(250, 500, 20, 20);
 				//m_GeneticAlgorithm.FitnessScore[i] += 1;
 				break;
 			case DIRECTIONS::DOWN:
-				yPos -= 0.3f;
+				yPos -= 10;
 				std::cout << " DOWN " << std::endl;
 				m_2dRenderer->drawLine(currentX, currentY, xPos, yPos, 1, 0);
+				//m_2dRenderer->drawBox(250, 500, 20, 20);
 				//m_GeneticAlgorithm.FitnessScore[i] += 1;
 				break;
 			case DIRECTIONS::LEFT:
-				xPos -= 0.3f;
+				xPos -= 10;
 				std::cout << " LEFT " << std::endl;
 				m_2dRenderer->drawLine(currentX, currentY, xPos, yPos, 1, 0);
+				//m_2dRenderer->drawBox(250, 500, 20, 20);
 				//m_GeneticAlgorithm.FitnessScore[i] += 1;
 				break;
 			case DIRECTIONS::RIGHT:
-				xPos += 0.3f;
+				xPos += 10;
 				std::cout << " RIGHT " << std::endl;
 				m_2dRenderer->drawLine(currentX, currentY, xPos, yPos, 1, 0);
+				//m_2dRenderer->drawBox(250, 500, 20, 20);
 				//m_GeneticAlgorithm.FitnessScore[i] += 1;
 				break;
 			case DIRECTIONS::NO_DIRECTION:
@@ -153,8 +163,18 @@ void GASystemApp::Fitness()
 			default:
 				break;
 			}
+			float position;
+			float endpos;
+			float distance;
+			float fit;
+			position = xPos + yPos;
+			endpos = endposX + endposY;
+			distance = position - endpos;
+			fit = distance;
+			m_GeneticAlgorithm.FitnessScore[i] = -fit;
 		}
 		i++;
 	}
+	Time = 0;
 	m_GeneticAlgorithm.FitnissEvaluation();
 }

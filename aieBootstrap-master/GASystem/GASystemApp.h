@@ -37,4 +37,5 @@ protected:
 	float									yPos;
 	int										currentX;
 	int										currentY;
+	int										Time = 0;
 };
