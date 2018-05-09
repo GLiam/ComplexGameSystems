@@ -28,14 +28,12 @@ public:
 
 	MazePosition getStartLocation() { return m_startLocation; }
 	MazePosition getEndLocation() { return m_endLocation; }
-	MazePosition getFinalLocation() { return m_finalLocation; }
 	MazePosition FollowDirections(std::vector<DIRECTIONS> directionsToFollow);
 
 private:
 	std::vector<std::vector<NodeType>> m_maze;
 	MazePosition m_startLocation;
 	MazePosition m_endLocation;
-	MazePosition m_finalLocation;
 	int m_width;
 	int m_height;
 };

@@ -146,8 +146,7 @@ Maze::MazePosition Maze::FollowDirections(std::vector<DIRECTIONS> directionsToFo
 		}
 	}
 	std::cout << " end of geneom " << std::endl;
-	m_finalLocation = currentLocation;
-	return m_finalLocation;
+	return currentLocation;
 }
 
 void Maze::RenderAtLocation(aie::Renderer2D* renderer, MazePosition position, glm::vec2 center, float nodeWidth, glm::vec3 colour) 

@@ -6,11 +6,14 @@ template<typename T, int GENE_NUM, int POPULATION_NUM>
 class GeneticAlgorithm
 {
 public:
-	
+	using ChromosomesType = Chromosomes<T, GENE_NUM>;
+
 	GeneticAlgorithm() = delete;
 
-	GeneticAlgorithm(float Mutation_Rate, float CrossOver_Rate)
-	{		
+	GeneticAlgorithm(int Mutation_Chance, int Mutation_Rate)
+	{	
+		MutateChance = Mutation_Chance;
+		MutationRate = ((float)(rand() % Mutation_Rate * 100) / 100);
 		m_Chromosomes = new Chromosomes<T, GENE_NUM>;
 	}
 	
@@ -27,9 +30,23 @@ public:
 		{
 			//std::cout << "Chromosomes: " << chromosomeCount << std::endl;
 			m_Chromosomes->GenerateChromosome();
-			Population.push_back(m_Chromosomes->getChromosomes());
+			Population.push_back(*m_Chromosomes);
 			FitnessScore[i] = 0.1f;
 			chromosomeCount++;
+		}
+	}
+
+	void SortByFitness()
+	{
+		for (int i = 0; i < Population.size() - 1; i++)
+		{
+			for (int j = 0; j < Population.size() - i - 1; j++)
+			{
+				if (Population[j] < Population[j + 1])
+				{
+					std::swap(&Population[j], &Population[j + 1]);
+				}
+			}
 		}
 	}
 
@@ -40,12 +57,12 @@ public:
 
 		for (int i = 0; i < PotentialParents.size(); i++)
 		{
-			int PotentialParent1 = rand() % PotentialParents.size();
-			int PotentialParent2 = rand() % PotentialParents.size();
-			int PotentialParent3 = rand() % PotentialParents.size();
-			int PotentialParent4 = rand() % PotentialParents.size();
+			int PotentialParent1 = rand() % POPULATION_NUM;
+			int PotentialParent2 = rand() % POPULATION_NUM;
+			int PotentialParent3 = rand() % POPULATION_NUM;
+			int PotentialParent4 = rand() % POPULATION_NUM;
 
-			if (FitnessScore[PotentialParent1] <= FitnessScore[PotentialParent2])
+			if (m_Chromosomes[PotentialParent1].getFitness() <= m_Chromosomes[PotentialParent2].getFitness())
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent1]);
 			}
@@ -53,8 +70,7 @@ public:
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent2]);
 			}
-
-			if (FitnessScore[PotentialParent3] <= FitnessScore[PotentialParent4])
+			if (m_Chromosomes[PotentialParent3].getFitness() <= m_Chromosomes[PotentialParent4].getFitness())
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent3]);
 			}
@@ -62,9 +78,10 @@ public:
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent4]);
 			}
-			std::vector<T> childOne;
-			std::vector<T> childTwo;
-			CrossOver(CrossOverParent[0], CrossOverParent[1], childOne, childTwo);
+
+			ChromosomesType childOne;
+			ChromosomesType childTwo;
+			CrossOver(CrossOverParent[0].getChromosomes(), CrossOverParent[1].getChromosomes(), childOne.getChromosomes(), childTwo.getChromosomes());
 
 			//Store childOne, childTwo in the general population
 			if (Population.size() < POPULATION_NUM)
@@ -91,49 +108,27 @@ public:
 			{
 				childOne.push_back(parentOne[i]);
 				childTwo.push_back(parentTwo[i]);
+				m_Chromosomes->mutation(MutateChance, MutationRate);
 			}
-			else
+ 			else
 			{
 				childOne.push_back(parentTwo[i]);
 				childTwo.push_back(parentOne[i]);
+				m_Chromosomes->mutation(MutateChance, MutationRate);
 			}
 		}
 	}
 
-	std::vector<std::vector<T>> getPopulation() { return Population; }
+	std::vector<ChromosomesType>& getPopulation() { return Population; }
 
 	float FitnessScore[POPULATION_NUM];
 	//float getFitnessScore() { return FitnessScore[]; }
 protected: 
-	Chromosomes<T, GENE_NUM>* m_Chromosomes;
-	std::vector<std::vector<T>> Population;
-	std::vector<std::vector<T>> PotentialParents;
-	std::vector<std::vector<T>> CrossOverParent;
+	ChromosomesType* m_Chromosomes;
+	std::vector<ChromosomesType> Population;
+	std::vector<ChromosomesType> PotentialParents;
+	std::vector<ChromosomesType> CrossOverParent;
 	std::vector<T> GeneContainer;
+	float MutationRate;
+	float MutateChance;
 };
-
-//Parents = Population;
-//Population.clear();
-//bool attempt1;
-//bool attempt2;
-//bool attempt3;
-//bool attempt4;
-//for (int i = 0; i < 4; i++)
-//{
-//	if (!attempt1)
-//	{
-//		auto PotentialParent1 = Parents.at(rand() % Parents.size());
-//	}
-//}
-//if (FitnessScore[] <= FitnessScore[])
-//{
-//	CrossOverParent.push_back(PotentialParent1);
-//}
-////else
-////	CrossOverParent.push_back(Parents.at(Parents[PotentialParent2]));
-////if (FitnessScore[PotentialParent3] <= FitnessScore[PotentialParent4])
-////{
-////	CrossOverParent.push_back(Parents.at(Parents[PotentialParent3]));
-////}
-////else
-////	CrossOverParent.push_back(Parents.at(Parents[PotentialParent4]));

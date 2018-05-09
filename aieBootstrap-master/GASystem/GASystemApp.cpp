@@ -4,7 +4,7 @@
 #include "GeneticAlgorithm.h"
 
 GASystemApp::GASystemApp()
-	: m_GeneticAlgorithm(0.1f, 0.5f)
+	: m_GeneticAlgorithm(1, 5)
 	, m_maze(20, 20)
 {
 
@@ -18,18 +18,13 @@ GASystemApp::~GASystemApp() {
 bool GASystemApp::startup() {
 
 	//srand((unsigned int)time(nullptr));
-	srand(5);
+	srand(10);
+
 
 	m_maze.GenerateMaze();
 	m_GeneticAlgorithm.GeneratePopulation();
 
 	m_2dRenderer = new aie::Renderer2D();
-	xPos = 250;
-	yPos = 500;
-	int currentX = xPos;
-	int currentY = yPos;
-
-	Fitness();
 
 	//std::vector<DIRECTIONS> demo;
 	//demo.push_back(DIRECTIONS::DOWN);
@@ -56,6 +51,10 @@ void GASystemApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
+	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
+	{
+		Fitness();
+	}
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -72,7 +71,11 @@ void GASystemApp::draw() {
 
 	m_maze.Render(m_2dRenderer, { getWindowWidth() * 0.5f, getWindowHeight() * 0.5f }, 30);
 
-	m_maze.RenderAtLocation(m_2dRenderer, position, { getWindowWidth() * 0.5f, getWindowHeight() * 0.5f }, 30, { 1.0f, 0.5f, 1.0f });
+	for(int i = 0; i < position.size(); i++)
+	{
+		m_maze.RenderAtLocation(m_2dRenderer, position[i], { getWindowWidth() * 0.5f, getWindowHeight() * 0.5f }, 30, { 1.0f, 0.5f, 1.0f });
+	}
+
 	// done drawing sprites
 	m_2dRenderer->end();
 }
@@ -80,21 +83,20 @@ void GASystemApp::draw() {
 void GASystemApp::Fitness()
 {
 	auto Pop = m_GeneticAlgorithm.getPopulation();
+	position.clear();
 	for (auto& dir : Pop)
 	{
-		m_maze.FollowDirections(dir);
-	}
-	position = m_maze.getFinalLocation();
+		Maze::MazePosition finalPos = m_maze.FollowDirections(dir.getChromosomes());
+		
+		Maze::MazePosition endPos = m_maze.getEndLocation();
 
-	//int i = 0;
-	//float position;
-	//float endpos;
-	//float distance;
-	//float fit;
-	//position = xPos + yPos;
-	//endpos = endposX + endposY;
-	//distance = position - endpos;
-	//fit = distance;
-	//m_GeneticAlgorithm.FitnessScore[i] = -fit;
-	//m_GeneticAlgorithm.FitnissEvaluation();
+		float xDist = (float)(endPos.x - finalPos.x);
+		float yDist = (float)(endPos.y - finalPos.y);
+		float distance = glm::sqrt(xDist * xDist + yDist * yDist);
+		
+		dir.setFitness(-distance);
+		position.push_back(finalPos);
+	}
+	//m_GeneticAlgorithm.SortByFitness();
+	m_GeneticAlgorithm.FitnissEvaluation();
 }

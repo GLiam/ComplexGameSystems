@@ -23,7 +23,7 @@ public:
 
 protected:
 
-	GeneticAlgorithm<DIRECTIONS, 10 , 3>	m_GeneticAlgorithm;
+	GeneticAlgorithm<DIRECTIONS, 20 , 5>	m_GeneticAlgorithm;
 	aie::Renderer2D*						m_2dRenderer;
 	aie::Font*								m_font;
 	float									xPos;
@@ -34,5 +34,5 @@ protected:
 	float									endposY = currentY;
 	int										Time = 0;
 	Maze									m_maze;
-	Maze::MazePosition						position;
+	std::vector<Maze::MazePosition>			position;
 };
