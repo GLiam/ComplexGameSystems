@@ -2,7 +2,7 @@
 
 #include "Application.h"
 #include "Renderer2D.h"
-#include "GeneticAlgorithm.h"
+#include <GeneticAlgorithm.h>
 #include "Maze.h"
 #include "Directions.h"
 

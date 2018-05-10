@@ -29,12 +29,6 @@
     <ClInclude Include="GASystemApp.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Chromosomes.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GeneticAlgorithm.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Maze.h">
       <Filter>Header Files</Filter>
     </ClInclude>
