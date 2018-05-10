@@ -167,9 +167,14 @@
     <ClCompile Include="Maze.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Chromosomes.h" />
     <ClInclude Include="Directions.h" />
     <ClInclude Include="GASystemApp.h" />
+    <ClInclude Include="GeneticAlgorithm.h" />
     <ClInclude Include="Maze.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

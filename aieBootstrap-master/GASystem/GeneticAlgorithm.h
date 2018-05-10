@@ -31,6 +31,7 @@ public:
 			//std::cout << "Chromosomes: " << chromosomeCount << std::endl;
 			m_Chromosomes->GenerateChromosome();
 			Population.push_back(*m_Chromosomes);
+			FitnessScore[i] = 0.1f;
 			chromosomeCount++;
 		}
 	}
@@ -134,11 +135,14 @@ public:
 
 	std::vector<ChromosomesType>& getPopulation() { return Population; }
 
+	float FitnessScore[POPULATION_NUM];
+	//float getFitnessScore() { return FitnessScore[]; }
 protected: 
 	ChromosomesType* m_Chromosomes;
 	std::vector<ChromosomesType> Population;
 	std::vector<ChromosomesType> PotentialParents;
 	std::vector<ChromosomesType> CrossOverParent;
+	std::vector<T> GeneContainer;
 	float MutationRate;
 	float MutateChance;
 };
