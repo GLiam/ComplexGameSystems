@@ -4,11 +4,9 @@
 #include "GeneticAlgorithm.h"
 
 GASystemApp::GASystemApp()
-	: m_GeneticAlgorithm(1, 5)
+	: m_GeneticAlgorithm(0.3f, 0.05f)
 	, m_maze(20, 20)
 {
-
-	//m_GeneticAlgorithm.setMutationRate(0.1f);
 }
 
 GASystemApp::~GASystemApp() {
@@ -17,10 +15,11 @@ GASystemApp::~GASystemApp() {
 
 bool GASystemApp::startup() {
 
-	//srand((unsigned int)time(nullptr));
-	srand(10);
+	srand((unsigned int)time(nullptr));
+	//srand(10);
 
 
+	///Genetic Algorithm START
 	m_maze.GenerateMaze();
 	m_GeneticAlgorithm.GeneratePopulation();
 
@@ -34,9 +33,7 @@ bool GASystemApp::startup() {
 	//demo.push_back(DIRECTIONS::UP);
 	//demo.push_back(DIRECTIONS::UP);
 	//demo.push_back(DIRECTIONS::UP);
-	/*p = m_maze.FollowDirections(demo);*/
-
-	///Genetic Algorithm START
+	//p = m_maze.FollowDirections(demo);
 
 	return true;
 }
@@ -51,10 +48,16 @@ void GASystemApp::update(float deltaTime) {
 
 	// input example
 	aie::Input* input = aie::Input::getInstance();
-	if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
-	{
+
+	Time++;
+	//if (input->wasKeyPressed(aie::INPUT_KEY_SPACE))
+	//if (Time == 50)
+	//{
 		Fitness();
-	}
+		Time = 0;
+	//}
+
+
 
 	// exit the application
 	if (input->isKeyDown(aie::INPUT_KEY_ESCAPE))
@@ -82,8 +85,10 @@ void GASystemApp::draw() {
 
 void GASystemApp::Fitness()
 {
-	auto Pop = m_GeneticAlgorithm.getPopulation();
+	//std::cout << "POPULATION START" << std::endl;
+	auto& Pop = m_GeneticAlgorithm.getPopulation();
 	position.clear();
+	
 	for (auto& dir : Pop)
 	{
 		Maze::MazePosition finalPos = m_maze.FollowDirections(dir.getChromosomes());
@@ -96,7 +101,24 @@ void GASystemApp::Fitness()
 		
 		dir.setFitness(-distance);
 		position.push_back(finalPos);
+
 	}
+
+
+	float BestScore = -1000.0f;
+	auto& indervidual = Pop;
+	for (int i = 0; i < m_GeneticAlgorithm.getPopulation().size(); i++)
+	{
+		float score = indervidual[i].getFitness();
+		if (score > BestScore)
+		{
+			BestScore = score;
+		}
+	}
+	//std::cout << BestScore << std::endl;
+
+	//std::cout << "POPULATION END" << std::endl;
 	//m_GeneticAlgorithm.SortByFitness();
 	m_GeneticAlgorithm.FitnissEvaluation();
+	m_GeneticAlgorithm.Mutate();
 }

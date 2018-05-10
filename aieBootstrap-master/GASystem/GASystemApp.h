@@ -23,15 +23,15 @@ public:
 
 protected:
 
-	GeneticAlgorithm<DIRECTIONS, 20 , 5>	m_GeneticAlgorithm;
+	GeneticAlgorithm<DIRECTIONS, 40, 100>	m_GeneticAlgorithm;
 	aie::Renderer2D*						m_2dRenderer;
 	aie::Font*								m_font;
-	float									xPos;
-	float									yPos;
-	float									currentX;
-	float									currentY;
-	float									endposX = currentX;
-	float									endposY = currentY;
+	//float									xPos;
+	//float									yPos;
+	//float									currentX;
+	//float									currentY;
+	//float									endposX = currentX;
+	//float									endposY = currentY;
 	int										Time = 0;
 	Maze									m_maze;
 	std::vector<Maze::MazePosition>			position;

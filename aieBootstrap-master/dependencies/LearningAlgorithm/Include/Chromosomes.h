@@ -11,17 +11,15 @@ class Chromosomes
 public:
 	Chromosomes() 
 	{
-		srand((unsigned int)time(nullptr));
 	};
 
 	void GenerateChromosome()
 	{
 		chromosomes.clear();
-		//srand(time(NULL));
 		for (int CurrentChromosome = 0; CurrentChromosome < GENE_NUM; CurrentChromosome++)
 		{
-			T temp = static_cast<T>(rand() % T::MAX_VALUE);
-			chromosomes.push_back(temp);
+			T Rdirections = static_cast<T>(rand() % T::MAX_VALUE);
+			chromosomes.push_back(Rdirections);
 		}
 	}
 
@@ -30,20 +28,31 @@ public:
 		//Calculate value from 0 to 1
 		//if value is greater than mutation chance
 		//return - no mutation
-
+		float randomValue = rand() / (float)RAND_MAX;
+		if (randomValue > mutation_chance) return;
 
 		//For each gene
 		//calculate value from 0 to 1
 		//if value is greater than mutation rate
 		//skip gene
 
-		int mutatedGene = rand() % GENE_NUM;
-
-		if (mutate_rate <= mutation_chance)
+		for (int i = 0; i < GENE_NUM; ++i)
 		{
-			T newGene = (T)(rand() % T::MAX_VALUE);
-			chromosomes.at(mutatedGene) = newGene;
+			float randomValue = rand() / (float)RAND_MAX;
+			if (randomValue < mutate_rate)
+			{
+				T newGene = (T)(rand() % T::MAX_VALUE);
+				chromosomes[i] = newGene;
+			}
 		}
+
+		//int mutatedGene = rand() % GENE_NUM;
+		//
+		//if (mutate_rate <= mutation_chance)
+		//{
+		//	T newGene = (T)(rand() % T::MAX_VALUE);
+		//	chromosomes.at(mutatedGene) = newGene;
+		//}
 	}
 
 	std::vector<T>& getChromosomes() { return chromosomes; }	

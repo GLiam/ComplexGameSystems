@@ -90,13 +90,14 @@ Maze::MazePosition Maze::FollowDirections(std::vector<DIRECTIONS> directionsToFo
 {
 	MazePosition currentLocation = getStartLocation();
 
+	//std::cout << "GENEOM START" << std::endl;
 	for (DIRECTIONS& direction : directionsToFollow)
 	{
  		switch (direction)
 		{
 		case DIRECTIONS::UP:
-			std::cout << " UP " << std::endl;
-			if (currentLocation.y >= m_height || currentLocation.y <= 0)
+			//std::cout << "up" << std::endl;
+			if (currentLocation.y >= m_height - 1 || currentLocation.y <= 0)
 			{
 				break;
 			}
@@ -106,8 +107,8 @@ Maze::MazePosition Maze::FollowDirections(std::vector<DIRECTIONS> directionsToFo
 			}
 			break;
 		case DIRECTIONS::DOWN:
-			std::cout << " DOWN " << std::endl;
-			if (currentLocation.y >= m_height || currentLocation.y <= 0)
+			//std::cout << "down" << std::endl;
+			if (currentLocation.y >= m_height - 1|| currentLocation.y <= 0)
 			{
 				break;
 			}
@@ -117,8 +118,8 @@ Maze::MazePosition Maze::FollowDirections(std::vector<DIRECTIONS> directionsToFo
 			}
 			break;
 		case DIRECTIONS::LEFT:
-			std::cout << " LEFT " << std::endl;
-			if (currentLocation.x >= m_width || currentLocation.x <= 0)
+			//std::cout << "left" << std::endl;
+			if (currentLocation.x >= m_width - 1|| currentLocation.x <= 0)
 			{
 				break;
 			}
@@ -128,8 +129,8 @@ Maze::MazePosition Maze::FollowDirections(std::vector<DIRECTIONS> directionsToFo
 			}
 			break;
 		case DIRECTIONS::RIGHT:
-			std::cout << " RIGHT " << std::endl;
-			if (currentLocation.x >= m_width || currentLocation.x <= 0)
+			//std::cout << "right" << std::endl;
+			if (currentLocation.x >= m_width - 1|| currentLocation.x <= 0)
 			{
 				break;
 			}
@@ -139,13 +140,13 @@ Maze::MazePosition Maze::FollowDirections(std::vector<DIRECTIONS> directionsToFo
 			}
 			break;
 		case DIRECTIONS::NO_DIRECTION:
-			std::cout << " NO DIRECTON " << std::endl;
+			//std::cout << "no direction" << std::endl;
 			break;
 		default:
 			break;
 		}
 	}
-	std::cout << " end of geneom " << std::endl;
+	//std::cout << "GENEOM END" << std::endl;
 	return currentLocation;
 }
 

@@ -10,10 +10,10 @@ public:
 
 	GeneticAlgorithm() = delete;
 
-	GeneticAlgorithm(int Mutation_Chance, int Mutation_Rate)
+	GeneticAlgorithm(float Mutation_Chance, float Mutation_Rate)
 	{	
 		MutateChance = Mutation_Chance;
-		MutationRate = ((float)(rand() % Mutation_Rate * 100) / 100);
+		MutationRate = Mutation_Rate;
 		m_Chromosomes = new Chromosomes<T, GENE_NUM>;
 	}
 	
@@ -40,9 +40,9 @@ public:
 	{
 		for (int i = 0; i < Population.size() - 1; i++)
 		{
-			for (int j = 0; j < Population.size() - i - 1; j++)
+			for (int j = 0; j > Population.size() - i + 1; j++)
 			{
-				if (Population[j] < Population[j + 1])
+				if (Population[j].getFitness() < Population[j + 1].getFitness())
 				{
 					std::swap(&Population[j], &Population[j + 1]);
 				}
@@ -62,7 +62,7 @@ public:
 			int PotentialParent3 = rand() % POPULATION_NUM;
 			int PotentialParent4 = rand() % POPULATION_NUM;
 
-			if (m_Chromosomes[PotentialParent1].getFitness() <= m_Chromosomes[PotentialParent2].getFitness())
+			if (PotentialParents[PotentialParent1].getFitness() >= PotentialParents[PotentialParent2].getFitness())
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent1]);
 			}
@@ -70,7 +70,8 @@ public:
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent2]);
 			}
-			if (m_Chromosomes[PotentialParent3].getFitness() <= m_Chromosomes[PotentialParent4].getFitness())
+
+			if (PotentialParents[PotentialParent3].getFitness() >= PotentialParents[PotentialParent4].getFitness())
 			{
 				CrossOverParent.push_back(PotentialParents[PotentialParent3]);
 			}
@@ -83,7 +84,7 @@ public:
 			ChromosomesType childTwo;
 			CrossOver(CrossOverParent[0].getChromosomes(), CrossOverParent[1].getChromosomes(), childOne.getChromosomes(), childTwo.getChromosomes());
 
-			//Store childOne, childTwo in the general population
+			//Store childOne, childTwo in the general population			
 			if (Population.size() < POPULATION_NUM)
 			{
 				Population.push_back(childOne);
@@ -93,6 +94,11 @@ public:
 			{
 				break;
 			}
+			if(Population.size() > POPULATION_NUM)
+			{
+				Population.pop_back();
+			}
+
 		}
 		PotentialParents.clear();
 		CrossOverParent.clear();
@@ -100,7 +106,7 @@ public:
 
 	void CrossOver(const std::vector<T>& parentOne, const std::vector<T>& parentTwo, std::vector<T>& childOne, std::vector<T>& childTwo)
 	{
-		int halfWayPoint = GENE_NUM / 2;
+		int halfWayPoint = rand() % GENE_NUM;
 
 		for (int i = 0; i < GENE_NUM; ++i)
 		{
@@ -108,14 +114,22 @@ public:
 			{
 				childOne.push_back(parentOne[i]);
 				childTwo.push_back(parentTwo[i]);
-				m_Chromosomes->mutation(MutateChance, MutationRate);
+				//m_Chromosomes->mutation(MutateChance, MutationRate);
 			}
  			else
 			{
 				childOne.push_back(parentTwo[i]);
 				childTwo.push_back(parentOne[i]);
-				m_Chromosomes->mutation(MutateChance, MutationRate);
+				//m_Chromosomes->mutation(MutateChance, MutationRate);
 			}
+		}
+	}
+
+	void Mutate()
+	{
+		for (auto& chromosome : Population)
+		{
+			chromosome.mutation(MutateChance, MutationRate);
 		}
 	}
 
