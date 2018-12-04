@@ -1,0 +1,2 @@
+how to use 
+the genes always requier a final value called type MAX_VALUE
